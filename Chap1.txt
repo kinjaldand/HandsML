@@ -1,0 +1,39 @@
+Batch   ->  Entire Data
+Mini Batch/Online Learning/Incremental learning  ->  Some Data
+
+Overfitting happens when the model is too complex relative to the amount and noisiness of the training data. The possible
+solutions are:
+    To simplify the model by selecting one with fewer parameters (e.g., a linear model rather than a high-degree polynomial
+    model), by reducing the number of attributes in the training data or by constraining the model
+    To gather more training data
+    To reduce the noise in the training data (e.g., fix data errors and remove outliers)
+    * Constraining a model to make it simpler and reduce the risk of overfitting is called regularization : It effectively reduces the slope of line
+    
+
+Underfitting:
+    Selecting a more powerful model, with more parameters
+    Feeding better features to the learning algorithm (feature engineering)
+    Reducing the constraints on the model (e.g., reducing the regularization hyperparameter)
+    
+Parallelization:
+    Many machine learning algorithms support multi-core training via an n_jobs argument when the model is defined.
+    This affects not just the training of the model, but also the use of the model when making predictions.
+    
+    model = RandomForestClassifier(n_estimators=500, n_jobs=1)
+    
+    The evaluation procedure can be configured to use multiple cores, where each model training and evaluation happens on a separate core. This can be done by setting the n_jobs argument on the call to cross_val_score() function.
+    
+    model = RandomForestClassifier(n_estimators=100, n_jobs=1)
+    cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+    n_scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=1)
+    
+Duck Typing
+    Scikit-Learn relies on duck typing (not inheritance)
+    This term comes from the saying “If it walks like a duck, and it quacks like a duck, then it must be a duck.”
+
+    Duck typing is a concept related to dynamic typing, where the type or the class of an object is less important than the methods it defines. When you use duck typing, you do not check types at all. Instead, you check for the presence of a given method or attribute.
+    
+    
+    
+
+

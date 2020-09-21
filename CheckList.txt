@@ -1,0 +1,10 @@
+Monitor Data Pipeline
+    Run test and compare against std outputs
+    
+Add in framework
+Check Outliers - to suggest MAE instead of RMSE
+Verify Input Ranges - to alert before predictions
+Scale
+Normalize
+Write converters for frameworks to onnx
+Write converters for data to onnx feed

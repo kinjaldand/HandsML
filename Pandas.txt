@@ -1,0 +1,50 @@
+df["ocean_proximity"].value_counts()
+housing = strat_train_set.drop("median_house_value", axis=1)
+
+--------------------------------XXX---------------------------------
+
+--------------------------------Munging---------------------------------
+oecd_bli = df.pivot(index="Country", columns="Indicator", values="Value")
+df.rename(columns={"2015": "GDP per capita"}, inplace=True)
+df.set_index("Country", inplace=True)
+df = pd.merge(left=df, right=df,
+                              left_index=True, right_index=True)
+df.sort_values(by="GDP per capita", inplace=True)
+keep_indices = [1,2]
+df[["GDP per capita", 'Life satisfaction']].iloc[keep_indices]
+
+housing["income_cat"] = np.ceil(housing["median_income"] / 1.5)
+#condition and replace value like re.sub
+housing["income_cat"].where(housing["income_cat"] < 5, 5.0, inplace=True)
+
+X = np.c_[df["GDP per capita"]]
+y = np.c_[df["Life satisfaction"]]
+
+df.plot(kind='scatter', x="GDP per capita", y='Life satisfaction')
+#alpha --> transparency
+housing.plot(kind="scatter", x="longitude", y="latitude",alpha=0.1)
+housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
+s=housing["population"]/100, label="population", figsize=(10,7),
+c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True) 
+
+--------------------------------XXX---------------------------------
+
+---------------Show hist for all numeric values in pandas df------------
+import matplotlib.pyplot as plt
+housing.hist(bins=50, figsize=(20,15))
+plt.show()
+
+--------------------------------XXX---------------------------------
+
+-------------------Coorelation matrix----------------------------------
+from pandas.tools.plotting import scatter_matrix
+attributes = ["median_house_value", "median_income", "total_rooms",
+"housing_median_age"]
+scatter_matrix(housing[attributes], figsize=(12, 8))
+
+--------------------------------XXX---------------------------------
+
+
+---------------------------------------------------------------
+
+

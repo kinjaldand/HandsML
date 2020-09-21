@@ -1,0 +1,105 @@
+import sklearn.linear_model
+
+model = sklearn.linear_model.LinearRegression()
+model = sklearn.neighbors.KNeighborsRegressor(n_neighbors=3)
+
+from sklearn.metrics import mean_squared_error
+housing_predictions = lin_reg.predict(housing_prepared)
+
+--------------------RMSE--------------------------
+lin_mse = mean_squared_error(housing_labels, housing_predictions)
+lin_rmse = np.sqrt(lin_mse)
+
+----------------------XXXXXX--------------------------------
+
+--------------------n_jobs--------------------------
+model = RandomForestClassifier(n_estimators=100, n_jobs=1)
+cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+n_scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=1)
+
+----------------------XXXXXX--------------------------------
+
+--------------------Label Encoder--------------------------
+from sklearn.preprocessing import LabelEncoder
+encoder = LabelEncoder()
+housing_cat = housing["ocean_proximity"]
+housing_cat_encoded = encoder.fit_transform(housing_cat)
+print(encoder.classes_)
+
+--------------------One Hot Encoder----------------------------
+from sklearn.preprocessing import OneHotEncoder
+>>> encoder = OneHotEncoder()
+>>> housing_cat_1hot = encoder.fit_transform(housing_cat_encoded.reshape(-1,1))
+>>> housing_cat_1hot
+
+
+from sklearn.preprocessing import LabelBinarizer
+>>> encoder = LabelBinarizer()
+>>> housing_cat_1hot = encoder.fit_transform(housing_cat)
+>>> housing_cat_1hot
+
+----------------------XXXXX---------------------------------
+
+--------------------------------Missing values-------------------
+from sklearn.preprocessing import Imputer
+imputer = Imputer(strategy="median")
+
+imputer.fit(housing_num)
+
+imputer.statistics_
+housing_num.median().values
+X = imputer.transform(housing_num)
+----------------------XXXXX---------------------------------
+
+--------------------Pipeline---------------------
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+num_pipeline = Pipeline([
+('imputer', Imputer(strategy="median")),
+('attribs_adder', CombinedAttributesAdder()),
+('std_scaler', StandardScaler()),
+])
+housing_num_tr = num_pipeline.fit_transform(housing_num)
+
+from sklearn.pipeline import FeatureUnion
+full_pipeline = FeatureUnion(transformer_list=[
+("num_pipeline", num_pipeline),
+("cat_pipeline", cat_pipeline),
+])
+
+----------------------XXXXX---------------------------------
+
+-----------------------CROSS VALIDATION----------------
+Scikit-Learn cross-validation features expect a utility function (greater is better) rather than a cost function (lower is better), so
+the scoring function is actually the opposite of the MSE (i.e., a negative value), which is why the preceding code computes -
+scores before calculating the square root.
+
+from sklearn.model_selection import cross_val_score
+scores = cross_val_score(tree_reg, housing_prepared, housing_labels,
+scoring="neg_mean_squared_error", cv=10)
+tree_rmse_scores = np.sqrt(-scores)
+
+----------------------XXXXX---------------------------------
+
+from sklearn.model_selection import GridSearchCV
+param_grid = [
+{'n_estimators': [3, 10, 30], 'max_features': [2, 4, 6, 8]},
+{'bootstrap': [False], 'n_estimators': [3, 10], 'max_features': [2, 3, 4]},
+]
+forest_reg = RandomForestRegressor()
+grid_search = GridSearchCV(forest_reg, param_grid, cv=5,
+scoring='neg_mean_squared_error')
+grid_search.fit(housing_prepared, housing_labels)
+grid_search.best_params_
+grid_search.best_estimator_
+cvres = grid_search.cv_results_
+for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+    print(np.sqrt(-mean_score), params)
+
+
+
+
+
+
+
+

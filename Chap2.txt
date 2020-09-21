@@ -1,0 +1,43 @@
+Performance Measure : 
+    Regression, Rare outliers,Root Mean Square Error (RMSE), L2 Norm, Euclidian Distance, higher weight for large errors. 
+    Regression, Outliers, Mean Absolute Errors, L1 Norm, Manhattan Distance,
+    * RMSE more sensitive to outliers
+
+Assuring Consistent Split between Train and Test Set :
+    1. Save test set and load next time
+    2. Set seed to random data generator
+    3. In case data set is updated: compute a hash of each instance’s identifier, take last byte of same and put the instance in the test set if this value is lower or equal to 51 (~20% of 256)
+    
+Assure Stratified Sampling if applicable
+
+Coorelation:
+    The correlation coefficient only measures linear correlations (“if x goes up, then y generally goes up/down”). 
+    It may completely miss out on nonlinear relationships 
+
+Imputer:
+    we cannot be sure that there won’t be any missing values in new data after the system goes live, so it is safer to apply the imputer to all the numerical attributes:
+    
+Encoder:
+    Label Encoder
+    One Hot Encoder : the output is a SciPy sparse matrix, instead of a NumPy array
+    Label Binarizer: We can apply both transformations (from text categories to integer categories, 
+        then from integer categories to one-hot vectors) in one shot using the LabelBinarizer
+        Note that this returns a dense NumPy array by default. 
+        You can get a sparse matrix instead by passing sparse_output=True to the LabelBinarizer constructor.
+        
+Custom Transformer:
+    Create a class and implement three methods: fit() (returning self), transform(), and fit_transform().
+    You can get the last one for free by simply adding TransformerMixin as a base class
+    If you add BaseEstimator as a base class (and avoid *args and **kargs in your constructor) you will get two extra methods (get_params() and set_params()) that will be useful for automatic hyperparameter tuning.
+    
+Feature Scaling:
+    Min-max scaling : values are shifted and rescaled so that they end up ranging from 0 to 1. Affected by outliers.
+    Standarization: Zero mean, unit variance. Less affected by outliers.
+    
+Cross Validation:
+    Scikit-Learn cross-validation features expect a utility function (greater is better) rather than a cost function (lower is better), so the scoring function is actually the opposite of the MSE (i.e., a negative value), which is why the preceding code computes -scores before calculating the square root.
+    
+GridSearchCV
+    If GridSearchCV is initialized with refit=True (which is the default), then once it finds the best estimator using cross-validation, it retrains it on the whole training set. This is usually a good idea since feeding it more data will likely improve its performance.
+        
+
