@@ -1,0 +1,73 @@
+SGDClassifier class:
+    This classifier has the advantage of being capable of handling very large datasets efficiently. 
+    This is in part because SGD deals with training instances independently, one at a time 
+    (which also makes SGD well suited for online learning)
+    
+F1 Score:
+    The F1 score is the harmonic mean of precision and recall. 
+    Whereas the regular mean treats all values equally, the harmonic mean gives much more weight to low values. 
+    As a result, the classifier will only get a high F1 score if both recall and precision are high.
+    
+Decision Function:
+    Scikit-Learn does not let you set the threshold directly, but it does give you access to the decision scores that it uses to make predictions.
+    
+ROC Curve:
+    The receiver operating characteristic (ROC) curve is another common tool used with binary classifiers.
+    It is very similar to the precision/recall curve, but instead of plotting precision versus recall, the ROC
+    curve plots the true positive rate (another name for recall) against the false positive rate. The FPR is the
+    ratio of negative instances that are incorrectly classified as positive. It is equal to one minus the true
+    negative rate, which is the ratio of negative instances that are correctly classified as negative. The TNR
+    is also called specificity. Hence the ROC curve plots sensitivity (recall) versus 1 – specificity.
+    
+ROC vs PR Curve:
+    Since the ROC curve is so similar to the precision/recall (or PR) curve, you may wonder how to decide which one to use. As a
+    rule of thumb, you should prefer the PR curve whenever the positive class is rare or when you care more about the false
+    positives than the false negatives, and the ROC curve otherwise. For example, looking at the previous ROC curve (and the ROC
+    AUC score), you may think that the classifier is really good. But this is mostly because there are few positives (5s) compared to the negatives (non-5s). In contrast, the PR curve makes it clear that the classifier has room for improvement (the curve could be closer to the top-right corner).
+        
+Predict Proba Method:
+    RandomForestClassifier class does not have a decision_function()
+    method. Instead it has a predict_proba() method. Scikit-Learn classifiers generally have one or the
+    other. The predict_proba() method returns an array containing a row per instance and a column per
+    class, each containing the probability that the given instance belongs to the given class
+    
+OvA vs OvO:
+    one way to create a system that can classify the digit images into 10 classes (from 0 to 9) is
+    to train 10 binary classifiers, one for each digit (a 0-detector, a 1-detector, a 2-detector, and so on). Then
+    when you want to classify an image, you get the decision score from each classifier for that image and you
+    select the class whose classifier outputs the highest score. This is called the one-versus-all (OvA)
+    strategy (also called one-versus-the-rest).
+    Another strategy is to train a binary classifier for every pair of digits: one to distinguish 0s and 1s,
+    another to distinguish 0s and 2s, another for 1s and 2s, and so on. This is called the one-versus-one
+    (OvO) strategy. If there are N classes, you need to train N × (N – 1) / 2 classifiers. For the MNIST
+    problem, this means training 45 binary classifiers! When you want to classify an image, you have to run
+    the image through all 45 classifiers and see which class wins the most duels. The main advantage of OvO
+    is that each classifier only needs to be trained on the part of the training set for the two classes that it must
+    distinguish.
+    Some algorithms (such as Support Vector Machine classifiers) scale poorly with the size of the training
+    set, so for these algorithms OvO is preferred since it is faster to train many classifiers on small training
+    sets than training few classifiers on large training sets. For most binary classification algorithms,
+    however, OvA is preferred.
+    Scikit-Learn detects when you try to use a binary classification algorithm for a multiclass classification
+    task, and it automatically runs OvA (except for SVM classifiers for which it uses OvO).
+    Scikit-Learn did not have to run OvA or OvO because Random Forest classifiers can directly
+    classify instances into multiple classes
+    
+Confusion Matrix:
+    Remember that rows represent actual
+    classes, while columns represent predicted classes. The columns for classes 8 and 9 are quite bright,
+    which tells you that many images get misclassified as 8s or 9s. Similarly, the rows for classes 8 and 9 are
+    also quite bright, telling you that 8s and 9s are often confused with other digits
+    
+Multi Label:
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
