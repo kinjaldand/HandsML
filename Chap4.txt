@@ -1,0 +1,64 @@
+Cost Function:
+    the cost function has the shape of a bowl, but it can be an elongated bowl if the features have very different scales
+    When using Gradient Descent, you should ensure that all features have a similar scale (e.g., using Scikit-Learn’s StandardScaler class), or else it will take much longer to converge.
+    It is quite common for the cost function used during training to be different from the performance measure used for testing. Apart
+    from regularization, another reason why they might be different is that a good training cost function should have optimizationfriendly
+    derivatives, while the performance measure used for testing should be as close as possible to the final objective. A good
+    example of this is a classifier trained using a cost function such as the log loss (discussed in a moment) but evaluated using
+    precision/recall.
+    
+Batch Gradient Descent:
+    Notice that this formula involves calculations over the full training set X, at each Gradient Descent step! This is why the algorithm is called Batch Gradient Descent: it uses the whole batch of training data at every step. As a result it is terribly slow on very large training sets
+
+Stochastic Gradient Descent:
+    Picks a random instance in the training set at every step and computes the gradients based only on that single instance
+    Over time it will end up very close to the minimum, but once it gets there it will continue to bounce around, never settling down (see Figure 4-9). So once the algorithm stops, the final parameter values are good, but not optimal
+    When the cost function is very irregular (as in Figure 4-6), this can actually help the algorithm jump out of local minima, so Stochastic Gradient Descent has a better chance of finding the global minimum than Batch Gradient Descent does.
+
+Mini-batch Gradient Descent:
+    Mini-batch GD computes the gradients on small random sets of instances called minibatches.
+
+    
+Simulated Annealing:
+    gradually reduce the learning rate. The steps start out large (which helps make quick progress and escape local minima), then get smaller and smaller, allowing the algorithm to settle at the global minimum.
+    
+Underfitting vs Overfitting:
+    If a model performs well on the training data but generalizes poorly according to the cross-validation metrics, then your model is overfitting. If it performs poorly on both, then it is underfitting.
+    These learning curves are typical of an underfitting model. 
+    Both curves have reached a plateau; they are close and fairly high
+    If your model is underfitting the training data, adding more training examples will not help. You need to use a more complex model or come up with better features.
+    One way to improve an overfitting model is to feed it more training data until the validation error reaches the training error.
+    
+Ridge Regression:
+    regularized version of Linear Regression, theta square,l2 norm of weight
+    It is important to scale the data (e.g., using a StandardScaler) before performing Ridge Regression, as it is sensitive to the scale of the input features. This is true of most regularized models.
+    
+Lasso Regression:
+    theta abs, l1 norm
+    it tends to completely eliminate the weights of the least important features (i.e., set them to zero)
+    Lasso Regression automatically performs feature selection and outputs a sparse model
+    
+Elastic Net:
+    Elastic Net is a middle ground between Ridge Regression and Lasso Regression.
+    you can control the mix ratio r. 
+    When r = 0, Elastic Net is equivalent to Ridge Regression, 
+    and when r = 1, it is equivalent to Lasso Regression
+    
+Softmax Classifier:
+    The Softmax Regression classifier predicts only one class at a time (i.e., it is multiclass, not multioutput) so it should be used only with mutually exclusive classes such as different types of plants. You cannot use it to recognize multiple people in one picture.
+    Scikit-Learn’s LogisticRegression uses one-versus-all by default when you train it on more than two classes, but you can set the multi_class hyperparameter to "multinomial" to switch it to Softmax Regression instead
+    
+Cross Entropy:
+    Cross entropy originated from information theory. Suppose you want to efficiently transmit information about the weather every day. If
+    there are eight options (sunny, rainy, etc.), you could encode each option using 3 bits since 23 = 8. However, if you think it will be sunny
+    almost every day, it would be much more efficient to code “sunny” on just one bit (0) and the other seven options on 4 bits (starting with
+    a 1). Cross entropy measures the average number of bits you actually send per option. If your assumption about the weather is perfect,
+    cross entropy will just be equal to the entropy of the weather itself (i.e., its intrinsic unpredictability). But if your assumptions are wrong
+    (e.g., if it rains often), cross entropy will be greater by an amount called the Kullback–Leibler divergence.
+    
+    
+    
+    
+    
+    
+    
