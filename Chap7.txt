@@ -1,0 +1,71 @@
+Ensemble Method:
+    A very simple way to create an even better classifier is to aggregate the predictions of each classifier and
+predict the class that gets the most votes. This majority-vote classifier is called a hard voting classifier
+
+    Ensemble methods work best when the predictors are as independent from one another as possible. One way to get diverse
+classifiers is to train them using very different algorithms. This increases the chance that they will make very different types of errors, improving the ensemble’s accuracy.
+
+    If all classifiers are able to estimate class probabilities (i.e., they have a predict_proba() method),
+then you can tell Scikit-Learn to predict the class with the highest class probability, averaged over all the
+individual classifiers. This is called soft voting. It often achieves higher performance than hard voting
+because it gives more weight to highly confident votes. All you need to do is replace voting="hard"
+with voting="soft" and ensure that all classifiers can estimate class probabilities.This is not the case
+of the SVC class by default, so you need to set its probability hyperparameter to True (this will make
+the SVC class use cross-validation to estimate class probabilities, slowing down training, and it will add
+a predict_proba() method)
+
+Bagging and Pasting:
+    Train models on different random subsets of the training set. When sampling is performed with replacement, this method is called bagging (short for bootstrap aggregating). When sampling is performed without replacement, it is called pasting.
+    
+    The BaggingClassifier automatically performs soft voting instead of hard voting if the base classifier can estimate class probabilities (i.e., if it has a predict_proba() method), which is the case with Decision Trees classifiers.
+    
+    Training instances that are not sampled are called out-of-bag (oob) instances.
+    In Scikit-Learn, you can set oob_score=True when creating a BaggingClassifier to request an automatic oob evaluation(automatic validation set) after training.
+    
+    The BaggingClassifier class supports sampling the features as well. This is controlled by two
+hyperparameters: max_features and bootstrap_features. They work the same way as max_samples
+and bootstrap, but for feature sampling instead of instance sampling.
+
+    Sampling both training instances and features is called the Random Patches method. Keeping all training instances
+(i.e., bootstrap=False and max_samples=1.0) but sampling features (i.e., bootstrap_features=True
+and/or max_features smaller than 1.0) is called the Random Subspaces method.
+
+Random Forest:
+    The Random Forest algorithm introduces extra randomness when growing trees; instead of searching for
+the very best feature when splitting a node (see Chapter 6), it searches for the best feature among a
+random subset of features.
+
+Boosting:
+    Boosting (originally called hypothesis boosting) refers to any Ensemble method that can combine several
+weak learners into a strong learner. The general idea of most boosting methods is to train predictors
+sequentially, each trying to correct its predecessor. There are many boosting methods available, but by far
+the most popular are AdaBoost13 (short for Adaptive Boosting) and Gradient Boosting.
+
+AdaBoost:
+    One way for a new predictor to correct its predecessor is to pay a bit more attention to the training
+instances that the predecessor underfitted. This results in new predictors focusing more and more on the
+hard cases. This is the technique used by AdaBoost.
+
+    to build an AdaBoost classifier, a first base classifier (such as a Decision Tree) is trained
+and used to make predictions on the training set. The relative weight of misclassified training instances is
+then increased. A second classifier is trained using the updated weights and again it makes predictions on
+the training set, weights are updated, and so on.
+
+    There is one important drawback to this sequential learning technique: it cannot be parallelized (or only partially), since each
+predictor can only be trained after the previous predictor has been trained and evaluated. As a result, it does not scale as well as
+bagging or pasting.
+
+    If your AdaBoost ensemble is overfitting the training set, you can try reducing the number of estimators or more strongly
+regularizing the base estimator.
+
+Gradient Boost:
+    Gradient Boosting
+works by sequentially adding predictors to an ensemble, each one correcting its predecessor. However,
+instead of tweaking the instance weights at every iteration like AdaBoost does, this method tries to fit the
+new predictor to the residual errors made by the previous predictor.
+
+Stacking:
+    instead of using trivial functions (such as hard voting) to
+aggregate the predictions of all predictors in an ensemble, why don’t we train a model to perform this
+aggregation?
+    
