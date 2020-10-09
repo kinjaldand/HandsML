@@ -39,14 +39,10 @@ Kernel Trick:
     hyperparameter)
     
 SVM Regression:
-    The trick is to reverse the
-    objective: instead of trying to fit the largest possible street between two classes while limiting margin
-    violations, SVM Regression tries to fit as many instances as possible on the street while limiting margin
+    The trick is to reverse the objective: instead of trying to fit the largest possible street between two classes while limiting margin violations, SVM Regression tries to fit as many instances as possible on the street while limiting margin
     violations.
     The width of the street is controlled by a hyperparameter ϵ.
     Adding more training instances within the margin does not affect the model’s predictions; thus, the model is said to be ϵ-insensitive.
     
-    The LinearSVR class scales
-linearly with the size of the training set (just like the LinearSVC class), while the SVR class gets much too
-slow when the training set grows large (just like the SVC class).
+    The LinearSVR class scales linearly with the size of the training set (just like the LinearSVC class), while the SVR class gets much too slow when the training set grows large (just like the SVC class).
 
