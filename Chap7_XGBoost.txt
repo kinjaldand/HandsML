@@ -1,0 +1,6 @@
+Features:
+    It implements machine learning algorithms under the Gradient Boosting framework. 
+    XGBoost provides a parallel tree boosting (also known as GBDT, GBM). 
+    The same code runs on major distributed environment (Hadoop, SGE, MPI) 
+    It can solve problems beyond billions of examples
+    training with multiple GPUs is only supported for Linux platform
